@@ -55,19 +55,20 @@ const Card = (article) => {
 const cardAppender = async (selector) => {
   try {
     const response = await fetch('http://localhost:5001/api/articles');
+    if (!response.ok) {
+      throw new Error('Error fetching articles');
+
+    }
+
     const articlesData = await response.json();
-
-    const articles = Object.values(articlesData.articles);
-
+    const articles = Object.values(articlesData);
     const targetElement = document.querySelector(selector);
     articles.forEach((article) => {
       const card = Card(article);
       targetElement.appendChild(card);
     });
 
-  } catch (error) {
-    console.error('Error fetching articles:', error);
-  }
+
   // TASK 6
   // ---------------------
   // Implement this function that takes a css selector as its only argument.
@@ -76,6 +77,8 @@ const cardAppender = async (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+} catch (error){
+  console.error('Error fetching articles:', error);
 }
-
+}
 export { Card, cardAppender }
