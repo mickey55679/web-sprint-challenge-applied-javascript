@@ -61,7 +61,7 @@ const cardAppender = async (selector) => {
     }
 
     const articlesData = await response.json();
-    const articles = Object.values(articlesData);
+    const articles = Object.values(articlesData.articles);
     const targetElement = document.querySelector(selector);
     articles.forEach((article) => {
       const card = Card(article);
