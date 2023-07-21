@@ -13,9 +13,40 @@ const Tabs = (topics) => {
   //   <div class="tab">technology</div>
   // </div>
   //
-}
 
-const tabsAppender = (selector) => {
+  const topicsDiv = document.createElement('div');
+  topicsDiv.classList.add('topics');
+
+  topics.forEach((topic) => {
+    const tabDiv = document.createElement('div');
+    tabDiv.classList.add('tab');
+    tabDiv.textContent = topic;
+    topicsDiv.appendChild(tabDiv);
+  });
+  return topicsDiv;
+
+
+};
+
+
+
+
+const tabsAppender = async (selector) => {
+
+  try {
+    const response = await fetch('http://localhost:5001/api/topics');
+    const data = await response.json();
+
+    const topicsArray = data.topics;
+
+    const tabsContainer = Tabs(topicsArray);
+    const targetelement = document.querySelector(selector);
+    targetelement.appendChild(tabsContainer);
+
+    
+  } catch (error) {
+    console.error('Error fetching topics:', error);
+  }
   // TASK 4
   // ---------------------
   // Implement this function which takes a css selector as its only argument.
@@ -23,6 +54,6 @@ const tabsAppender = (selector) => {
   // Find the array of topics inside the response, and create the tabs using the Tabs component.
   // Append the tabs to the element in the DOM that matches the selector passed to the function.
   //
-}
+};
 
 export { Tabs, tabsAppender }
