@@ -47,7 +47,6 @@ const Card = (article) => {
 // </div>
 //
 
- 
 const cardAppender = async (selector) => {
   try {
     const response = await fetch("http://localhost:5001/api/articles");
@@ -58,24 +57,31 @@ const cardAppender = async (selector) => {
     const articlesData = await response.json();
     const articles = Object.values(articlesData).flat();
 
+     console.log("Articles retrieved:", articles);
+
     const targetElement = document.querySelector(selector);
+    if (!targetElement) {
+      throw new Error(`Target element with selector ${selector} not found`);
+    }
 
     articles.forEach((article) => {
       const card = Card(article);
+      if (!card) {
+        console.error("Error creating card for article:", article);
+      }
       targetElement.appendChild(card);
     });
-      } catch (error) {
+  } catch (error) {
     console.error("Error fetching articles:", error);
   }
 };
 export { Card, cardAppender };
 
-    // TASK 6
-    // ---------------------
-    // Implement this function that takes a css selector as its only argument.
-    // It should obtain articles from this endpoint: `http://localhost:5001/api/articles` (test it with console.log!!).
-    // However, the articles do not come organized in a single, neat array. Inspect the response closely!
-    // Create a card from each and every article object in the response, using the Card component.
-    // Append each card to the element in the DOM that matches the selector passed to the function.
-    //
-
+// TASK 6
+// ---------------------
+// Implement this function that takes a css selector as its only argument.
+// It should obtain articles from this endpoint: `http://localhost:5001/api/articles` (test it with console.log!!).
+// However, the articles do not come organized in a single, neat array. Inspect the response closely!
+// Create a card from each and every article object in the response, using the Card component.
+// Append each card to the element in the DOM that matches the selector passed to the function.
+//
