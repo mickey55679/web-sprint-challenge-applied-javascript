@@ -46,7 +46,7 @@ const Card = (article) => {
 //   </div>
 // </div>
 //
-import { Card } from "./components/card";
+
  
 const cardAppender = async (selector) => {
   try {
@@ -68,7 +68,7 @@ const cardAppender = async (selector) => {
     console.error("Error fetching articles:", error);
   }
 };
-export { cardAppender };
+export { Card, cardAppender };
 
     // TASK 6
     // ---------------------
