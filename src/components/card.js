@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const Card = (article) => {
   const card = document.createElement("div");
   const headline = document.createElement("div");
@@ -47,34 +49,23 @@ const Card = (article) => {
 // </div>
 //
 
-const cardAppender = async (selector) => {
-  try {
-    const response = await fetch("http://localhost:5001/api/articles");
-    if (!response.ok) {
-      throw new Error("Error fetching articles");
-    }
-
-    const articlesData = await response.json();
-    const articles = Object.values(articlesData).flat();
-
-     console.log("Articles retrieved:", articles);
-
-    const targetElement = document.querySelector(selector);
-    if (!targetElement) {
-      throw new Error(`Target element with selector ${selector} not found`);
-    }
-
-    articles.forEach((article) => {
-      const card = Card(article);
-      if (!card) {
-        console.error("Error creating card for article:", article);
+const cardAppender = (selector) => {
+  axios
+    .get("http://localhost:5001/api/articles")
+    .then((res) => {
+      for (let key in res.data.articles) {
+        for (let article of res.data.articles[key]) {
+          const card = Card(article);
+          const container = document.querySelector(selector);
+          container.appendChild(card);
+        }
       }
-      targetElement.appendChild(card);
+    })
+    .catch((error) => {
+      console.log("Error fetching articles:", error);
     });
-  } catch (error) {
-    console.error("Error fetching articles:", error);
-  }
 };
+
 export { Card, cardAppender };
 
 // TASK 6

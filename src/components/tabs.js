@@ -27,7 +27,7 @@ function Tabs(topics) {
   return topicsDiv;
 
 
-};
+}
 
 
 
